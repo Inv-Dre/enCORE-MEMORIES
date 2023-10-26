@@ -13,7 +13,8 @@ module.exports = {
         try{
             const user = await User.findOne({ _id: req.params.userId})
             .select('-__v')
-            .populate('thoughts');
+            .populate('thoughts')
+            .populate('friends');
 
             if (!user) {
                 return res.status(404).json({ message: 'No user with that ID' });
@@ -33,11 +34,23 @@ module.exports = {
                 res.json(500).json(err);
             }
           },
+          async updateUser(req,res){
+            try{
+              const user = await User.updateOne({_id:req.params.userId})
+              console.log(user);
+              res.send('User Updated');
+            }catch (err){
+              res.status(500).json(err)
+          }
+          },
           async deleteUser(req,res) {
             try {
-                const dbUserData = await User.deleteOne({ _id: req.params.userId})
-                console.log(dbUserData)
+                const user = await User.deleteOne({ _id: req.params.userId})
+                console.log(user)
                 res.send('document deleted');
+                if(!user){
+                  return res.status(404).json({ message: 'User not found'})
+                }
             } catch (err) {
                 res.status(500).json(err)
             }
