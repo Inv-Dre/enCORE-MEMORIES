@@ -57,4 +57,38 @@ module.exports = {
                 res.status(500).json(err)
             }
           },
+          async addFriend (req,res){
+            try{
+              const {userId, friendId} = req.params
+              const user = await User.findOne({_id: userId});
+              const newFriend = await UserfindOne({_id: friendId});
+            
+              if (!user || !newFriend) {
+                return res.status(404).json({ message: 'User or friend not found' });
+              }
+
+              const added = user.friends.push(newFriend);
+              await added.save();
+              res.send('Friend Added');
+            }catch (err) {
+              res.status(500).json(err);
+          }
+          },
+          async deleteFriend (req,res){
+            try{
+              const {userId, friendId} = req.params;
+              const user = await User.findOne({_id: userId});
+              const removedFriend = await User.findOne({_id: friendId});
+              if (!user || !newFriend) {
+                return res.status(404).json({ message: 'User or friend not found' });
+              };
+
+             const deleted = user.friends.splice(removedFriend);
+             console.log(deleted);
+             deleted.save();
+             res.send('Friend Deleted');
+            }catch (err) {
+              res.status(500).json(err);
+          }
+          }
         };
