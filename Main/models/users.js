@@ -34,6 +34,14 @@ const userSchema = new Schema(
     id: false,
 }
 );
+userSchema.pre('remove', async function (next) {
+    try {
+        await mongoose.model('thoughts').deleteMany({ userId: this._id });
+        next();
+    } catch (err) {
+        next(err);
+    }
+});
 
 userSchema.virtuals('friendsCount', function(){
     return this.friends.length;

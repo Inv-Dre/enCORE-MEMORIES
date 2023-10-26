@@ -47,10 +47,12 @@ module.exports = {
             try {
                 const user = await User.deleteOne({ _id: req.params.userId})
                 console.log(user)
-                res.send('document deleted');
+                
                 if(!user){
                   return res.status(404).json({ message: 'User not found'})
                 }
+                await user.remove();
+                res.send('The User and their Thoughts have been deleted');
             } catch (err) {
                 res.status(500).json(err)
             }
