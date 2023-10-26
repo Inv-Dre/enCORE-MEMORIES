@@ -49,9 +49,8 @@ module.exports = {
     },
     async updateThought(req,res){
         try{
-            const thought = await Thoughts.findOne({_id:req.params.thoughtId}) => {
-                console.log(thought);  
-            };
+            const thought = await Thoughts.findOne({_id:req.params.thoughtId})
+            
             console.log(thought);
             res.send('Thought Updated');
 
@@ -92,5 +91,5 @@ module.exports = {
             res.status(500).json(err);
         }
     },
-}
+};
 
