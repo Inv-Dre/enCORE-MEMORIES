@@ -43,7 +43,7 @@ userSchema.pre('remove', async function (next) {
     }
 });
 
-userSchema.virtuals('friendsCount', function(){
+userSchema.virtual('friendsCount', function(){
     return this.friends.length;
 });
 
