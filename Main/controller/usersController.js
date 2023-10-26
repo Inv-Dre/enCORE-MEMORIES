@@ -27,7 +27,8 @@ module.exports = {
           async createUser(req,res) {
             try {
                 const dbUserData = await User.create(req.body);
-                res.json(dbUserData);
+                console.log(dbUserData)
+                res.send("User Created");
             } catch (err){
                 res.json(500).json(err);
             }

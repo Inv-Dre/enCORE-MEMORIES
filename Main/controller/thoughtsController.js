@@ -25,7 +25,22 @@ module.exports = {
     }
     },
     async createThought (req,res){
-        
-    }
+        try{
+            const thoughtData = Thoughts.create(req.body)
+            console.log(thoughtData)
+                res.send("Thought Created");
+        } catch (err){
+            res.json(500).json(err);
+        }
+    },
+    async deleteThought(req,res){
+        try{
+            const destroyThought = Thoughts.deleteOne({_id: req.params.thoughtId})
+            console.log(destroyThought)
+            res.send('thought deleted');
+        } catch (err){
+            res.json(500).json(err);
+        }
+    },
 
 }
