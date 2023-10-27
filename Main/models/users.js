@@ -13,10 +13,6 @@ const userSchema = new Schema(
             unique: true,
             match: /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}/
         },
-        password: {
-            type: String,
-            required: true 
-        },
         thoughts: [{
             type: Schema.Types.ObjectId,
             ref: 'thoughts'

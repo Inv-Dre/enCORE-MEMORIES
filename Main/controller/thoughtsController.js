@@ -35,7 +35,7 @@ module.exports = {
             console.log(user);
                 res.send("Thought Created");
         } catch (err){
-            res.json(500).json(err);
+            res.send(err);
         }
     },
     async deleteThought(req,res){
@@ -44,7 +44,7 @@ module.exports = {
             console.log(destroyThought)
             res.send('thought deleted');
         } catch (err){
-            res.json(500).json(err);
+            res.send(err);
         }
     },
     async updateThought(req,res){
@@ -55,7 +55,7 @@ module.exports = {
             res.send('Thought Updated');
 
         }catch(err){
-            res.json(500).json(err);
+            res.send(err);
         }
     },
 
@@ -71,7 +71,7 @@ module.exports = {
             console.log(newReaction);
             res.send('Reaction created');
         }catch (err){
-            res.json(err)
+            res.send(err)
         }
     },
 
@@ -88,7 +88,7 @@ module.exports = {
             res.send('reaction deleted');
            
         }catch (err) {
-            res.status(500).json(err);
+            res.send(err);
         }
     },
 };

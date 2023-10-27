@@ -31,7 +31,7 @@ module.exports = {
                 console.log(dbUserData)
                 res.send("User Created");
             } catch (err){
-                res.json(500).json(err);
+                res.send(err);
             }
           },
           async updateUser(req,res){
@@ -40,7 +40,7 @@ module.exports = {
               console.log(user);
               res.send('User Updated');
             }catch (err){
-              res.status(500).json(err)
+              res.send(err)
           }
           },
           async deleteUser(req,res) {
@@ -54,7 +54,7 @@ module.exports = {
                 await user.remove();
                 res.send('The User and their Thoughts have been deleted');
             } catch (err) {
-                res.status(500).json(err)
+                res.send(err)
             }
           },
           async addFriend (req,res){
@@ -64,14 +64,14 @@ module.exports = {
               const newFriend = await UserfindOne({_id: friendId});
             
               if (!user || !newFriend) {
-                return res.status(404).json({ message: 'User or friend not found' });
+                return res.send({ message: 'User or friend not found' });
               }
 
               const added = user.friends.push(newFriend);
               await added.save();
               res.send('Friend Added');
             }catch (err) {
-              res.status(500).json(err);
+              res.send(err);
           }
           },
           async deleteFriend (req,res){
@@ -80,7 +80,7 @@ module.exports = {
               const user = await User.findOne({_id: userId});
               const removedFriend = await User.findOne({_id: friendId});
               if (!user || !newFriend) {
-                return res.status(404).json({ message: 'User or friend not found' });
+                return res.send({ message: 'User or friend not found' });
               };
 
              const deleted = user.friends.splice(removedFriend);
@@ -88,7 +88,7 @@ module.exports = {
              deleted.save();
              res.send('Friend Deleted');
             }catch (err) {
-              res.status(500).json(err);
+              res.send(err);
           }
           }
         };
