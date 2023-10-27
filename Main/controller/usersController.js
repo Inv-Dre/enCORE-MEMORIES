@@ -11,18 +11,19 @@ module.exports = {
     },
     async getSingleUser(req,res){
         try{
+          console.log('this works')
             const user = await User.findOne({ _id: req.params.userId})
             .select('-__v')
-            .populate('thoughts')
-            .populate('friends');
+            .populate('thoughts','friends');
+           
             console.log(user)
             if (!user) {
                 return res.status(404).json({ message: 'No user with that ID' });
               }
         
-              res.json(user);
+              await res.json(user);
             } catch (err) {
-              res.status(500).json(err);
+             await res.status(500).json(err);
             }
           },
           async createUser(req,res) {
@@ -36,7 +37,7 @@ module.exports = {
           },
           async updateUser(req,res){
             try{
-              const user = await User.updateOne({_id:req.params.userId})
+              const user = await User.updateOne({_id: req.params.userId})
               console.log(user);
               res.send('User Updated');
             }catch (err){
