@@ -15,7 +15,7 @@ module.exports = {
             .select('-__v')
             .populate('thoughts')
             .populate('friends');
-
+            console.log(user)
             if (!user) {
                 return res.status(404).json({ message: 'No user with that ID' });
               }
@@ -46,13 +46,12 @@ module.exports = {
           async deleteUser(req,res) {
             try {
                 const user = await User.deleteOne({ _id: req.params.userId})
-                console.log(user)
-                
+                // console.log(user)
                 if(!user){
                   return res.status(404).json({ message: 'User not found'})
                 }
                 await user.remove();
-                res.send('The User and their Thoughts have been deleted');
+                await res.json("The User and their Thoughts have been deleted");
             } catch (err) {
                 res.send(err)
             }
