@@ -1,10 +1,10 @@
-const Thoughts = require('../models/thoughts');
+const Thought = require('../models/thoughts');
 const User = require('../models/users')
 
 module.exports = {
     async getThoughts(req, res) { 
         try{
-        const thoughts = await Thoughts.find();
+        const thoughts = await Thought.find();
         res.json(thoughts);
         } catch (err){
             console.log(err);
@@ -13,7 +13,7 @@ module.exports = {
     },
     async oneThought(req,res) {
         try{
-        const thought = await Thoughts.findById({_id: req.params.thoughtId})
+        const thought = await Thought.findById({_id: req.params.thoughtId})
         .select('-__v')
         .populate('reactions');
 
@@ -29,7 +29,7 @@ module.exports = {
     async createThought (req,res){
         try{
             const {thoughtText, username} = req.body
-            const thoughtData = await Thoughts.create({thoughtText, username});
+            const thoughtData = await Thought.create({thoughtText, username});
             console.log(thoughtData);
             const user = await User.findOne({username: username});
             user.thoughts.push(thoughtData)
@@ -42,7 +42,7 @@ module.exports = {
     },
     async deleteThought(req,res){
         try{
-            const destroyThought = await Thoughts.deleteOne({_id: req.params.thoughtId})
+            const destroyThought = await Thought.deleteOne({_id: req.params.thoughtId})
             console.log(destroyThought)
             res.send('thought deleted');
         } catch (err){
@@ -51,7 +51,7 @@ module.exports = {
     },
     async updateThought(req,res){
         try{
-            const thought = await Thoughts.updateOne({_id: req.params.thoughtId}, req.body)
+            const thought = await Thought.updateOne({_id: req.params.thoughtId}, req.body)
             
             console.log(thought);
              await res.send('Thought Updated');
@@ -63,7 +63,7 @@ module.exports = {
 
     async createReaction (req,res){
         try{
-            const thought = await Thoughts.findOne({_id: req.params.thoughtId})
+            const thought = await Thought.findOne({_id: req.params.thoughtId})
             if(!thought){
               return res.send('thought not found')
             }
@@ -81,18 +81,14 @@ module.exports = {
     async deleteReaction(req,res){
         try{
             const {thoughtId, reactionId} = req.params
-            const thought = await Thoughts.findOne({_id: thoughtId});
-            // const reaction = await Thoughts.findOne({_id: reactionId});  
-            // console.log('thought', thought);
-            // console.log('reaction', reaction);
+            const thought = await Thought.findOneAndUpdate({_id: thoughtId}, {$pull: {reactions: {reactionId}}},{runValidators:true, new:true,});
+         
             if (!thought ){
               return  res.send('thought not found')
             }
-            const reaction = reactionId
-            console.log(reaction)
-            thought.reactions.splice(reaction);
-            thought.save();
-            res.send('reaction deleted');
+            
+          
+            res.json(thought);
            
         }catch (err) {
             res.send(err);

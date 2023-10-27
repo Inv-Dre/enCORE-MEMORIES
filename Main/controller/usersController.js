@@ -79,16 +79,15 @@ module.exports = {
             try{
               const {userId, friendId} = req.params;
               
-              const user = await User.findOne({_id: userId});
-              const removedFriend = await User.findOne({_id: friendId});
+              const user = await User.findOneandUpdate({_id: userId}, {$pull: {friends: {friendId}}},{runValidators:true, new:true,});
+              // const removedFriend = await User.findOne({_id: friendId});
               
-              if (!user || !removedFriend) {
-                return res.send({ message: 'User or friend not found' });
+              if (!user) {
+                return res.send({ message: 'User not found' });
               }
 
-            user.friends.splice(removedFriend);
-            await user.save();
-            await res.send('Friend Deleted');
+           
+            res.json(user);
             }catch (err) {
               res.send(err);
           }
