@@ -60,15 +60,18 @@ module.exports = {
             try{
               const {userId, friendId} = req.params
               const user = await User.findOne({_id: userId});
-              const newFriend = await UserfindOne({_id: friendId});
-            
+              const newFriend = await User.findOne({_id: friendId});
+              // console.log(user, newFriend)
+             
               if (!user || !newFriend) {
                 return res.send({ message: 'User or friend not found' });
               }
-
-              const added = user.friends.push(newFriend);
-              await added.save();
-              res.send('Friend Added');
+              user.friends.push(newFriend);
+              const save = await user.save();
+              console.log(save)
+            
+              
+              await res.send('Friend Added');
             }catch (err) {
               res.send(err);
           }
