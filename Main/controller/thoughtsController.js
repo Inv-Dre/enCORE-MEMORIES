@@ -65,7 +65,7 @@ module.exports = {
         try{
             const thought = await Thoughts.findOne({_id: req.params.thoughtId})
             if(!thought){
-               res.send('thought not found')
+              return res.send('thought not found')
             }
             const reaction = req.body
 
@@ -82,12 +82,16 @@ module.exports = {
         try{
             const {thoughtId, reactionId} = req.params
             const thought = await Thoughts.findOne({_id: thoughtId});
-            const reaction = await Thoughts.findOne({_id:reactionId});
-            if(!thought || !reaction){
-                res.send('thought or reaction not found')
+            // const reaction = await Thoughts.findOne({_id: reactionId});  
+            // console.log('thought', thought);
+            // console.log('reaction', reaction);
+            if (!thought ){
+              return  res.send('thought not found')
             }
-            const deletedReaction = thought.reactions.splice(reaction);
-            console.log(deletedReaction);
+            const reaction = reactionId
+            console.log(reaction)
+            thought.reactions.splice(reaction);
+            thought.save();
             res.send('reaction deleted');
            
         }catch (err) {

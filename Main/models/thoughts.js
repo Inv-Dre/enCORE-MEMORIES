@@ -20,6 +20,7 @@ const reactionsSchema = new Schema({
         required: true,
     }
 },
+// {id:false,}
 );
 
 const thoughtsSchema = new Schema ({
