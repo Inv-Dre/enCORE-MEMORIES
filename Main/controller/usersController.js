@@ -11,7 +11,6 @@ module.exports = {
     },
     async getSingleUser(req,res){
         try{
-          console.log('this works')
             const user = await User.findOne({ _id: req.params.userId})
             .select('-__v')
             .populate('thoughts','friends');
@@ -37,9 +36,9 @@ module.exports = {
           },
           async updateUser(req,res){
             try{
-              const user = await User.updateOne({_id: req.params.userId})
+              const user = await User.updateOne({_id: req.params.userId}, req.body)
               console.log(user);
-              res.send('User Updated');
+               await res.send('User Updated');
             }catch (err){
               res.send(err)
           }
