@@ -69,7 +69,8 @@ module.exports = {
             }
             const reaction = req.body
 
-            const newReaction = thought.reactions.push(reaction).save();
+            const newReaction = thought.reactions.push(reaction)
+            thought.save()
             console.log(newReaction);
             res.send('Reaction created');
         }catch (err){
