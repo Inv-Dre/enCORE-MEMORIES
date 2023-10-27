@@ -79,16 +79,19 @@ module.exports = {
           async deleteFriend (req,res){
             try{
               const {userId, friendId} = req.params;
+              
               const user = await User.findOne({_id: userId});
               const removedFriend = await User.findOne({_id: friendId});
-              if (!user || !newFriend) {
+              
+              if (!user || !removedFriend) {
                 return res.send({ message: 'User or friend not found' });
-              };
+              }
 
-             const deleted = user.friends.splice(removedFriend);
-             console.log(deleted);
-             deleted.save();
-             res.send('Friend Deleted');
+            const result = user.friends.splice(removedFriend);
+            console.log(result);
+            const  save = await user.save();
+            console.log(save);
+            await res.send('Friend Deleted');
             }catch (err) {
               res.send(err);
           }
