@@ -63,7 +63,7 @@ module.exports = {
 
     async createReaction (req,res){
         try{
-            const thought = await Thoughts.findOne({_id:req.params.thoughId})
+            const thought = await Thoughts.findOne({_id: req.params.thoughtId})
             if(!thought){
                res.send('thought not found')
             }
