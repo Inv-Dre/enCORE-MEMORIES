@@ -18,7 +18,7 @@ module.exports = {
         .populate('reactions');
 
         if(!thought){
-            return res.status(404).json({ message: 'No student with that ID'})
+            return res.status(404).json({ message: 'No thought with that ID'})
         }
         await res.json(thought)
     } catch (err){
