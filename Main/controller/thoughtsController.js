@@ -31,9 +31,10 @@ module.exports = {
             const thoughtData = await Thoughts.create({thoughtsText, username});
             console.log(thoughtData);
             const user = await User.findOne({username: username});
-            await user.thoughts.push().save();
+            user.thoughts.push(thoughtData)
+            await user.save()
             console.log(user);
-                res.send("Thought Created");
+            await res.send("Thought Created");
         } catch (err){
             res.send(err);
         }
