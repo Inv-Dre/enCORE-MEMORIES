@@ -67,10 +67,8 @@ module.exports = {
                 return res.send({ message: 'User or friend not found' });
               }
               user.friends.push(newFriend);
-              const save = await user.save();
-              console.log(save)
-            
-              
+              await user.save();
+        
               await res.send('Friend Added');
             }catch (err) {
               res.send(err);
@@ -87,10 +85,8 @@ module.exports = {
                 return res.send({ message: 'User or friend not found' });
               }
 
-            const result = user.friends.splice(removedFriend);
-            console.log(result);
-            const  save = await user.save();
-            console.log(save);
+            user.friends.splice(removedFriend);
+            await user.save();
             await res.send('Friend Deleted');
             }catch (err) {
               res.send(err);
