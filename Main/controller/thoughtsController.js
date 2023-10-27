@@ -13,13 +13,14 @@ module.exports = {
     },
     async oneThought(req,res) {
         try{
-        const thought = await Thoughts.findById({_id: req.params.userId})
+        const thought = await Thoughts.findById({_id: req.params.thoughtId})
         .select('-__v')
         .populate('reactions');
 
         if(!thought){
             return res.status(404).json({ message: 'No student with that ID'})
         }
+        await res.json(thought)
     } catch (err){
         console.log(err);
         return res.status(500).json(err);
@@ -27,8 +28,8 @@ module.exports = {
     },
     async createThought (req,res){
         try{
-            const {thoughtsText, username} = req.body
-            const thoughtData = await Thoughts.create({thoughtsText, username});
+            const {thoughtText, username} = req.body
+            const thoughtData = await Thoughts.create({thoughtText, username});
             console.log(thoughtData);
             const user = await User.findOne({username: username});
             user.thoughts.push(thoughtData)

@@ -13,7 +13,8 @@ module.exports = {
         try{
             const user = await User.findOne({ _id: req.params.userId})
             .select('-__v')
-            .populate('thoughts','friends');
+            .populate('thoughts')
+            .populate('friends');
            
             console.log(user)
             if (!user) {

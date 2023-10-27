@@ -24,8 +24,9 @@ const reactionsSchema = new Schema({
 const thoughtsSchema = new Schema ({
     thoughtText: { 
         type: String,
+        required: true,
         minLength: 1,
-        maxLength: 500,
+        maxLength: 280,
     },
     createdAt: {
         type: Date,
@@ -45,6 +46,8 @@ const thoughtsSchema = new Schema ({
     },
     id: false,
     timestamps: true,
+    __v:false,
+    
 }
 );
 
