@@ -1,5 +1,6 @@
 const User = require('../models/users');
 
+
 module.exports = {
     async getUsers( req, res) {
         try{
@@ -28,11 +29,15 @@ module.exports = {
           },
           async createUser(req,res) {
             try {
+              const valNewUser = await User.findOne({username: req.body.username})
+              if (valNewUser){
+              return res.status(400).json('Username already exists')
+              }
                 const dbUserData = await User.create(req.body);
                 console.log(dbUserData)
-                res.send("User Created");
+                res.status(200).json("User Created");
             } catch (err){
-                res.send(err);
+                res.status(500).json(err);
             }
           },
           async updateUser(req,res){
@@ -78,18 +83,26 @@ module.exports = {
           async deleteFriend (req,res){
             try{
               const {userId, friendId} = req.params;
-              
-              const user = await User.findOneandUpdate({_id: userId}, {$pull: {friends: {friendId}}},{runValidators:true, new:true,});
-              // const removedFriend = await User.findOne({_id: friendId});
-              
-              if (!user) {
-                return res.send({ message: 'User not found' });
+              console.log('working')
+              console.log(friendId)
+              const user = await User.findOne({_id: userId});
+              if(!user){
+                return res.status(404).json({message:'user not found'})
               }
+              const friend = await User.findOne({_id: friendId});
+              console.log(user)
+              console.log(friend)
 
-           
-            res.json(user);
+              user.friends.splice(friend,1);
+              user .save()
+              res.status(200).json('Friend Deleted')
+
+              // const removedFriend = await User.findOne({_id: friendId}
+
+          
+            // res.json(user);
             }catch (err) {
-              res.send(err);
+              res.json(err);
           }
           }
         };
