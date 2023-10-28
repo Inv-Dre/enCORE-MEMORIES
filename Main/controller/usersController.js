@@ -5,7 +5,7 @@ module.exports = {
     async getUsers( req, res) {
         try{
             const users = await User.find();
-            res.json(users);
+            res.status(200).json(users);
         } catch (err) {
             res.status(500).json(err);
         }
@@ -44,9 +44,9 @@ module.exports = {
             try{
               const user = await User.updateOne({_id: req.params.userId}, req.body)
               console.log(user);
-               await res.send('User Updated');
+               await res.status(200).json('User Updated');
             }catch (err){
-              res.send(err)
+              res.status(500).json(err)
           }
           },
           async deleteUser(req,res) {
@@ -89,7 +89,7 @@ module.exports = {
                 return res.status(404).json({message:'user not found'})
               }
               const friendIndex = user.friends.indexOf(friendId);
-              if (friendIndex === -1) {return res.json({message:'User not in Friends List'})}
+              if (friendIndex === -1) {return res.status(404).json({message:'User not in Friends List'})}
               // const friend = await User.findOne({_id: friendId});
 
               console.log(user)
@@ -104,7 +104,7 @@ module.exports = {
           
             // res.json(user);
             }catch (err) {
-              res.json(err);
+              res.status(500).json(err);
           }
           }
         };
