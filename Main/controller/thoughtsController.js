@@ -33,16 +33,16 @@ module.exports = {
             const user = await User.findOne({username: username});
 
             if(!user){
-                return await res.send('User not found');
+                return await res.status(404).json('User not found');
             } else {
             const thoughtData = await Thought.create({thoughtText, username}); 
             user.thoughts.push(thoughtData)
             await user.save()
             console.log(user);
-            await res.send("Thought Created");
+            await res.status(200).json("Thought Created");
             }
         } catch (err){
-            res.send(err);
+            res.status(500).json(err);
         }
     },
     async deleteThought(req,res){
