@@ -83,7 +83,7 @@ module.exports = {
             thought.reactions.push(reaction)
             await thought.save()
         
-            res.status(200).json('Reaction created');
+            res.status(200).json(thought);
         }catch (err){
             res.status(500).json(err)
         }
