@@ -47,14 +47,14 @@ module.exports = {
           async deleteUser(req,res) {
             try {
                 const user = await User.deleteOne({ _id: req.params.userId})
+                res.status(200).json("The User and their Thoughts have been deleted");
                 // console.log(user)
                 if(!user){
                   return res.status(404).json({ message: 'User not found'})
                 }
-                user.remove();
-                res.json("The User and their Thoughts have been deleted");
+                
             } catch (err) {
-                res.send(err)
+                res.status(500).json(err)
             }
           },
           async addFriend (req,res){
