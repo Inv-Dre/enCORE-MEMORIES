@@ -70,32 +70,34 @@ module.exports = {
               // console.log(user, newFriend)
              
               if (!user || !newFriend) {
-                return res.send({ message: 'User or friend not found' });
+                return res.status(404).json({ message: 'User or friend not found' });
               }
               user.friends.push(newFriend);
               await user.save();
         
-              await res.send('Friend Added');
+              await res.status(200).json(user);
             }catch (err) {
-              res.send(err);
+              res.status(500).json(err);
           }
           },
           async deleteFriend (req,res){
             try{
               const {userId, friendId} = req.params;
-              console.log('working')
-              console.log(friendId)
+            
               const user = await User.findOne({_id: userId});
               if(!user){
                 return res.status(404).json({message:'user not found'})
               }
-              const friend = await User.findOne({_id: friendId});
-              console.log(user)
-              console.log(friend)
+              const friendIndex = user.friends.indexOf(friendId);
+              if (friendIndex === -1) {return res.json({message:'User not in Friends List'})}
+              // const friend = await User.findOne({_id: friendId});
 
-              user.friends.splice(friend,1);
-              user .save()
-              res.status(200).json('Friend Deleted')
+              console.log(user)
+              console.log(friendIndex)
+
+              user.friends.splice(friendIndex,1);
+              user.save()
+              res.status(200).json(user)
 
               // const removedFriend = await User.findOne({_id: friendId}
 
