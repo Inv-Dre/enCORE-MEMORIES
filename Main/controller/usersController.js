@@ -51,8 +51,8 @@ module.exports = {
                 if(!user){
                   return res.status(404).json({ message: 'User not found'})
                 }
-                await user.remove();
-                await res.json("The User and their Thoughts have been deleted");
+                user.remove();
+                res.json("The User and their Thoughts have been deleted");
             } catch (err) {
                 res.send(err)
             }

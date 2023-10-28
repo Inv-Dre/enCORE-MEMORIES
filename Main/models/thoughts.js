@@ -53,6 +53,11 @@ const thoughtsSchema = new Schema ({
 }
 );
 
+thoughtsSchema.path(`createdAt`).get(function(timestamps) {
+    // Format the timestamp as you desire
+    return timestamps.toLocaleString(); 
+  });
+
 thoughtsSchema.virtual('reactionCount').get(function(){
     return this.reactions.length;
 });
