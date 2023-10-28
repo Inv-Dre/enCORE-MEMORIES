@@ -70,16 +70,22 @@ module.exports = {
         try{
             const thought = await Thought.findOne({_id: req.params.thoughtId})
             if(!thought){
-              return res.send('thought not found')
+              return res.status(404).send('thought not found')
             }
+            const user = await User.findOne({username: req.body.username});
+
+            if(!user){
+                return  res.status(404).send('User not found')
+            }
+
             const reaction = req.body
 
-            const newReaction = thought.reactions.push(reaction)
-            thought.save()
-            console.log(newReaction);
-            res.send('Reaction created');
+            thought.reactions.push(reaction)
+            await thought.save()
+        
+            res.status(200).send('Reaction created');
         }catch (err){
-            res.send(err)
+            res.status(500).send(err)
         }
     },
 
