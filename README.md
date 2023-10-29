@@ -13,7 +13,7 @@ Encore Memories is a social media platform that was made with main purpose of sh
 ## Installation
 
 1. git clone this in your terminal
-
+https://github.com/Inv-Dre/enCORE-MEMORIES.git
 
 2. Open up the folder
 
